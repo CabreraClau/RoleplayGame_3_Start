@@ -14,17 +14,35 @@ public class Field
     {
         List<Enemy> enemies = this.ListEnemies;
         List<Hero> heroes = this.ListHeroes;
-        if (enemies.Count >0 && heroes.Count >0 )
-        {
-            if (enemies.Count == heroes.Count)
+        if (enemies.Count >0 && heroes.Count >0  )
+            while ( enemies.Count != 0 || heroes.Count != 0)
             {
-                int i = 0;
-                foreach (Enemy enemy in enemies)
-                {
-                    Hero hero = heroes [i];
-                    hero.ReceiveAttack(enemy);
-                }
+                
+                    if (enemies.Count == heroes.Count)
+                    {
+                        int i = 0;
+                        foreach (Enemy enemy in enemies)
+                        {
+                            Hero hero = heroes [i];
+                            hero.ReceiveAttack(enemy);
+                            i++;
+                        }
+                        foreach (Hero hero in heroes)
+                        {
+                            Enemy enemy = enemies[i];
+                            enemy.ReceiveAttack(hero);
+                            if (enemy.Health <1)
+                            {
+                                hero.AbsorbVP(enemy);
+                                if (hero.VictoryPoints >=5)
+                                {
+                                    hero.Cure();
+                                }
+                            }
+                            i++;
+                        }
+                    }    
+                
             }
         }
     }
-}
